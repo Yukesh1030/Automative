@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Services & Maintenance | Stackly Mobility</title>
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <link rel="stylesheet" href="style.css?v=3" />
+  
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Catamaran:wght@300;400;500;600;700;800&family=Roboto:wght@300;400;500;700&display=swap");
+
+    :root {
+      --accent: #59ab66; 
+      --accent-orange: #ff6c3a;
+      --deep-charcoal: #1f2830;
+      --soft-white: #ffffff;
+      --bg-light: #f7f7f7;
+      --border: #e0e6ea;
+      --text-main: #363636;
+      --text-muted: #777777;
+      --card-bg: #ffffff;
+      --transition: all 0.3s ease;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { 
+      background: #ffffff; 
+      color: var(--text-main); 
+      font-family: 'Roboto', sans-serif; 
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container { width: min(90%, 1400px); margin: 0 auto; }
+    .section { padding: 100px 0; }
+    .label { font-weight: 800; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); margin-bottom: 20px; display: block; }
+    h2 { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 800; letter-spacing: -2px; line-height: 1.1; margin-bottom: 50px; }
+
+    /* --- Navigation --- */
+    /* Styles moved to global style.css */
+
+    /* --- Hero --- */
+    .hero { padding: 160px 0 100px; background: linear-gradient(to bottom, #0B1220, #000000); text-align: center; }
+    .hero h1 { font-size: clamp(3rem, 12vw, 6rem); font-weight: 800; letter-spacing: -5px; line-height: 0.9; margin-bottom: 30px; }
+    .hero p { font-size: clamp(1rem, 2vw, 1.3rem); color: var(--text-muted); max-width: 750px; margin: 0 auto 40px; }
+    .hero-buttons { display: flex; gap: 15px; justify-content: center; }
+    
+    .btn { padding: 20px 40px; border-radius: 100px; font-weight: 800; cursor: pointer; transition: var(--transition); border: none; font-size: 1rem; text-decoration: none; display: inline-block; }
+    .btn-main { background: var(--accent); color: #F8FAFC; }
+    .btn-outline { background: transparent; border: 2px solid #fff; color: #F8FAFC; }
+    .btn:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(37, 99, 235, 0.1); }
+
+    /* --- What We Offer Grid (Restored) --- */
+    .core-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 60px; }
+    .core-card { padding: 40px; background: rgba(255,255,255,0.03); border-radius: 32px; border: 1px solid var(--border); transition: var(--transition); }
+    .core-card:hover { border-color: var(--accent); transform: translateY(-5px); box-shadow: 0 20px 40px rgba(11, 18, 32,0.3); }
+    .core-card i { font-size: 2.5rem; margin-bottom: 20px; color: var(--accent); display: block; }
+
+    /* --- Pricing Grid (Restored) --- */
+    .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; margin-top: 60px; }
+    .pricing-card { background: rgba(255,255,255,0.03); padding: 50px; border-radius: 40px; border: 1px solid var(--border); transition: var(--transition); }
+    .pricing-card.premium { background: var(--deep-charcoal); color: #F8FAFC; position: relative; border-color: var(--accent);}
+    .pricing-card:hover { transform: translateY(-10px); }
+
+    /* --- Engine & Warranty --- */
+    .Engine-section { background: var(--deep-charcoal); color: #F8FAFC; border-radius: 60px; margin: 0 20px; padding: 100px 0; }
+    .Engine-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .Engine-img { width: 100%; border-radius: 40px; height: 500px; object-fit: cover; box-shadow: 0 30px 60px rgba(11, 18, 32,0.3); }
+    .warranty-box { background: rgba(255,255,255,0.05); padding: 40px; border-radius: 32px; border: 1px solid rgba(255,255,255,0.1); margin-top: 40px; }
+    .warranty-box h3 { font-size: 2rem; color: var(--accent); margin-bottom: 10px; }
+
+    /* --- Smart App --- */
+    .app-section { padding: 100px 0; background: transparent; }
+    .app-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .app-img { width: 100%; border-radius: 40px; }
+    .app-features { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 40px; }
+    .app-f-card i { font-size: 2rem; color: #F8FAFC; background: var(--accent); width: 60px; height: 60px; display: grid; place-items: center; border-radius: 15px; margin-bottom: 15px; }
+    .app-f-card h4 { margin-bottom: 8px; font-weight: 800; }
+
+    /* --- Servicing Services --- */
+    .cs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-top: 50px; }
+    .cs-card { background: rgba(255,255,255,0.03); padding: 40px; border-radius: 30px; border: 1px solid var(--border); transition: var(--transition); text-align: center; }
+    .cs-card:hover { transform: translateY(-10px); border-color: var(--accent); box-shadow: 0 20px 40px rgba(11, 18, 32,0.3); }
+    .cs-icon { width: 80px; height: 80px; background: var(--accent); color: #F8FAFC; border-radius: 50%; display: grid; place-items: center; margin: 0 auto 20px; font-size: 2.5rem; transition: var(--transition); }
+    .cs-card:hover .cs-icon { background: var(--accent); color: #F8FAFC; }
+
+    /* --- Testimonials --- */
+    .testimonials { background: var(--bg-light); padding: 100px 0; }
+    .test-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-top: 60px; }
+    .test-card { background: rgba(255,255,255,0.03); padding: 50px; border-radius: 40px; border: 1px solid var(--border); transition: var(--transition); }
+    .test-card:hover { transform: translateY(-10px); border-color: var(--accent); }
+    .test-content { font-size: 1.1rem; font-style: italic; margin-bottom: 30px; color: var(--text-muted); position: relative; }
+    .test-content::before { content: 'â€œ'; font-size: 5rem; position: absolute; top: -40px; left: -20px; color: var(--accent); opacity: 0.3; }
+    .test-user { display: flex; align-items: center; gap: 15px; }
+    .test-user img { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; }
+    .user-info h4 { font-weight: 800; font-size: 1.1rem; }
+    .user-info span { font-size: 0.9rem; opacity: 0.6; }
+
+ 
+    @media (max-width: 1024px) {
+      .hero h1 { font-size: 4rem; }
+      .Engine-grid, .app-grid, .test-grid, .core-grid, .pricing-grid, .cs-grid, .app-features, .footer-flex { grid-template-columns: 1fr !important; gap: 40px;}
+      ul.footer-links { flex-direction: column; gap: 20px; }
+      .app-img { order: -1; }
+    }
+    @media (max-width: 600px) {
+      .hero-buttons { flex-direction: column; }
+      .btn { width: 100%; text-align: center; }
+      .Engine-section { border-radius: 40px; margin: 0 10px; }
+    }
+  </style>
+</head>
+<body>
+
+    <nav id="navbar" class="navbar">
+      <div class="nav-wrapper">
+        <a href="index.html" class="logo-box">
+          <img src="assets/stackly.webp" alt="" class="logo-img" />
+        </a>
+
+        <ul class="nav-menu" id="navMenu">
+          <li class="nav-item"><a href="index.html">Home</a></li>
+          <li class="nav-item"><a href="vehicles.html">Models</a></li>
+          <li class="nav-item"><a href="about.html">About</a></li>
+          <li class="nav-item"><a href="services.html">Services</a></li>
+          <li class="nav-item"><a href="blog.html">Blog</a></li>
+          <li class="nav-item"><a href="contact.html">Contact</a></li>
+          <li class="nav-item">
+            <a href="login.html" class="btn-login">Login</a>
+          </li>
+        </ul>
+
+        <div
+          class="mobile-trigger"
+          id="mobileTrigger"
+          style="z-index: 3000; position: relative"
+        >
+          <i class="ph ph-list" id="menuIcon"></i>
+        </div>
+      </div>
+    </nav>
+
+    <section class="page-hero">
+      <img src="assets/services-hero.webp" class="page-hero-bg" alt="Services Hero">
+      <div class="page-hero-overlay"></div>
+      <div class="page-hero-content">
+        <h1 data-aos="fade-up" >Our <span>Services</span></h1>
+        <p data-aos="fade-up" data-aos-delay="100">Expert care for the world's most advanced high-voltage systems.</p>
+      </div>
+    </section>
+
+  <main class="services-main">
+    <section class="hover-cards-section">
+      <div class="section-header" style="text-align: center; margin-bottom: 60px;">
+        <span class="section-label">Solutions</span>
+        <h2>Elevate Your Drive</h2>
+        <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto;">Select a premium service package. Each tier unlocks a new level of performance, security, and digital integration.</p>
+      </div>
+      
+      <div class="hover-cards-container">
+        
+        <div class="hover-card" data-aos="fade-up">
+          <div class="hc-visible">
+            <i class="ph-bold ph-wrench"></i>
+            <h3>Standard Care</h3>
+            <div class="hc-price">$49 <span>/mo</span></div>
+          </div>
+          <div class="hc-hidden">
+            <p>Essential maintenance to keep you moving safely.</p>
+            <ul>
+              <li>Annual Digital Diagnostic</li>
+              <li>Quarterly OTA Updates</li>
+              <li>Standard Roadside Assist</li>
+            </ul>
+            <a href="404.html" class="btn-outline-accent">Subscribe</a>
+          </div>
+        </div>
+
+        <div class="hover-card hc-featured" data-aos="fade-up" data-aos-delay="100">
+          <div class="hc-visible">
+            <i class="ph-bold ph-shield-check"></i>
+            <h3>Performance Plus</h3>
+            <div class="hc-price">$99 <span>/mo</span></div>
+          </div>
+          <div class="hc-hidden">
+            <p>Unleash the full potential of your powertrain.</p>
+            <ul>
+              <li>Biannual Engine Balancing</li>
+              <li>Priority Beta OTA Access</li>
+              <li>24/7 Mobile Ranger Rescue</li>
+            </ul>
+            <a href="404.html" class="btn" style="background: var(--accent); color: white; border:none; padding: 12px 30px; border-radius: 100px;">Subscribe</a>
+          </div>
+        </div>
+
+        <div class="hover-card" data-aos="fade-up" data-aos-delay="200">
+          <div class="hc-visible">
+            <i class="ph-bold ph-crown"></i>
+            <h3>Track Elite</h3>
+            <div class="hc-price">$199 <span>/mo</span></div>
+          </div>
+          <div class="hc-hidden">
+            <p>For the uncompromising driving enthusiast.</p>
+            <ul>
+              <li>Monthly Track Telemetry</li>
+              <li>Unlimited Tire Replacements</li>
+              <li>Dedicated Neural Concierge</li>
+            </ul>
+            <a href="404.html" class="btn-outline-accent">Subscribe</a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+    
+    <section class="hover-cards-section" style="background: var(--bg-light); padding-top: 100px; padding-bottom: 100px;">
+      <div class="section-header" style="text-align: center; margin-bottom: 60px;">
+        <span class="section-label">Infrastructure</span>
+        <h2>Global Network</h2>
+      </div>
+      <div class="hover-cards-container">
+        <div class="hover-card" data-aos="fade-up">
+          <div class="hc-visible">
+            <i class="ph-bold ph-lightning"></i>
+            <h3>Hyper-Hubs</h3>
+          </div>
+          <div class="hc-hidden">
+            <p>Access 500+ ultra-fast charging locations across the continent.</p>
+          </div>
+        </div>
+        <div class="hover-card" data-aos="fade-up" data-aos-delay="100">
+          <div class="hc-visible">
+            <i class="ph-bold ph-house"></i>
+            <h3>Wallbox Install</h3>
+          </div>
+          <div class="hc-hidden">
+            <p>Professional home grid integration by certified engineers.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>   
+  <footer class="footer">
+      <div class="footer-grid">
+        <div class="footer-brand" data-aos="fade-up">
+          <a href="index.html" class="footer-logo">
+            <img src="assets/stackly.webp" alt="" class="logo-img" />
+          </a>
+          <p>
+            Redefining the boundaries of automotive excellence through intelligent
+            engineering and sustainable design.
+          </p>
+          <div class="social-links">
+            <a href="404.html"><i class="ph ph-instagram-logo"></i></a>
+            <a href="404.html"><i class="ph ph-x-logo"></i></a>
+            <a href="404.html"><i class="ph ph-linkedin-logo"></i></a>
+            <a href="404.html"><i class="ph ph-youtube-logo"></i></a>
+          </div>
+        </div>
+
+        <div class="footer-column" data-aos="fade-up" data-aos-delay="100">
+          <h4 class="footer-heading">Quick Links</h4>
+          <ul class="footer-links">
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="blog.html">Blog</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-column" data-aos="fade-up" data-aos-delay="200">
+          <h4 class="footer-heading">Ownership</h4>
+          <ul class="footer-links">
+            <li><a href="404.html">Service Network</a></li>
+            <li><a href="404.html">Service Centers</a></li>
+            <li><a href="404.html">Software Updates</a></li>
+            <li><a href="404.html">Owner Portal</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-column newsletter-box" data-aos="fade-up" data-aos-delay="300">
+          <h4 class="footer-heading">Stay Serviced</h4>
+          <p>Get the latest updates on new reveals and Servicing infrastructure.</p>
+          <form class="input-group" onsubmit="event.preventDefault(); window.location.href='404.html';"><input type="email" placeholder="Your email address" required /><button type="submit" class="btn-send">
+              <i class="ph ph-paper-plane-right" style="font-size: 1.2rem; color: #F8FAFC !important;"></i>
+            </button></form></div>
+      </div>
+
+      <div class="footer-bottom">
+        <div class="copyright">
+          &copy; 2026 Stackly Mobility Inc. Designed for the Future.
+        </div>
+        <div class="footer-links" style="display: flex; gap: 20px; margin-bottom: 0">
+          <a href="404.html" style="font-size: 0.8rem">Privacy Policy</a>
+          <a href="404.html" style="font-size: 0.8rem">Terms of Service</a>
+          <a href="404.html" style="font-size: 0.8rem">Cookies</a>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+      AOS.init({ duration: 1000, once: true });
+
+      const navbar = document.getElementById("navbar");
+      const mobileTrigger = document.getElementById("mobileTrigger");
+      const navMenu = document.getElementById("navMenu");
+      const menuIcon = document.getElementById("menuIcon");
+
+      // 1. Scroll Effect
+      window.addEventListener("scroll", () => {
+        if (window.scrollY > 50) navbar.classList.add("scrolled");
+        else navbar.classList.remove("scrolled");
+      });
+
+      // 2. Fixed Hamburger Toggle Logic
+      mobileTrigger.addEventListener("click", (e) => {
+        e.stopPropagation();
+        navMenu.classList.toggle("active");
+        if (navMenu.classList.contains("active")) {
+          menuIcon.classList.remove("ph-list");
+          menuIcon.classList.add("ph-x");
+        } else {
+          menuIcon.classList.remove("ph-x");
+          menuIcon.classList.add("ph-list");
+        }
+      });
+
+      // 3. Close menu when clicking a link
+      document.querySelectorAll(".nav-item a").forEach((link) => {
+        link.addEventListener("click", () => {
+          navMenu.classList.remove("active");
+          menuIcon.classList.replace("ph-x", "ph-list");
+        });
+      });
+
+      // 4. Close menu when clicking outside
+      document.addEventListener("click", (e) => {
+        if (!navMenu.contains(e.target) && !mobileTrigger.contains(e.target)) {
+          navMenu.classList.remove("active");
+          menuIcon.classList.replace("ph-x", "ph-list");
+        }
+      });
+
+      // 5. Loading Screen
+      window.addEventListener("load", () => {
+        const loader = document.getElementById("loader");
+        setTimeout(() => {
+          loader.classList.add("loader-hidden");
+        }, 300);
+      });
+
+      // 6. Active Navbar Link
+      const currentLocation = window.location.pathname.split("/").pop();
+      const navLinks = document.querySelectorAll(".nav-item a");
+      navLinks.forEach((link) => {
+        if (
+          link.getAttribute("href") === currentLocation ||
+          (currentLocation === "" && link.getAttribute("href") === "home.html")
+        ) {
+          link.classList.add("active");
+        }
+      });
+    </script>
+    <script>
+      AOS.init({ duration: 1000, once: true });
+    </script>
+  </body>
+</html>
