@@ -333,8 +333,81 @@
           text-align: center;
         }
         .item-row i {
-          margin-left: 0 !important;
+          margin-left: auto;
         }
+      }
+
+      /* Custom Admin Dashboard Elements & Animations */
+      .card {
+        opacity: 0;
+        animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+      }
+      .cards .card:nth-child(1) { animation-delay: 0.05s; }
+      .cards .card:nth-child(2) { animation-delay: 0.1s; }
+      .cards .card:nth-child(3) { animation-delay: 0.15s; }
+      .cards .card:nth-child(4) { animation-delay: 0.2s; }
+      
+      .item-row {
+        opacity: 0;
+        animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+      }
+      .visual-list .item-row:nth-child(1) { animation-delay: 0.05s; }
+      .visual-list .item-row:nth-child(2) { animation-delay: 0.1s; }
+      .visual-list .item-row:nth-child(3) { animation-delay: 0.15s; }
+      .visual-list .item-row:nth-child(4) { animation-delay: 0.2s; }
+      .visual-list .item-row:nth-child(5) { animation-delay: 0.25s; }
+
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(12px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      .admin-alert-list {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        margin-top: 15px;
+      }
+      .admin-alert-item {
+        padding: 16px;
+        border-radius: 16px;
+        border: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.01);
+        position: relative;
+        overflow: hidden;
+      }
+      .admin-alert-item::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+      }
+      .alert-critical::before { background: #ef4444; }
+      .alert-warning::before { background: #f59e0b; }
+      .alert-info::before { background: var(--accent); }
+      .alert-normal::before { background: var(--text-main); }
+      
+      .admin-alert-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 4px;
+      }
+      .admin-alert-header strong {
+        font-size: 0.88rem;
+        font-weight: 700;
+      }
+      .admin-alert-header small {
+        font-size: 0.68rem;
+        color: var(--text-muted);
+        font-weight: 600;
+      }
+      .admin-alert-item p {
+        font-size: 0.78rem;
+        color: var(--text-muted);
+        line-height: 1.4;
       }
     </style>
   </head>
@@ -494,41 +567,65 @@
         if (section === "overview") {
           content.innerHTML = `
       <div class="section-header" data-aos="fade-up">
-        <h2 data-aos="fade-up" data-aos-delay="100">Network Command</h2>
-        <p data-aos="fade-up" data-aos-delay="200">Real-time telemetry and commercial performance for Salem territory.</p>
+        <h2>Network Command</h2>
+        <p>Real-time telemetry and commercial performance for Salem territory.</p>
       </div>
       
-      <div class="cards">
-        <div class="card" data-aos="fade-up" data-aos-delay="100">
-          <i class="ph-bold ph-car trend-icon" data-aos="zoom-in" data-aos-delay="200"></i>
+      <div class="cards" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));">
+        <div class="card">
+          <i class="ph-bold ph-car trend-icon"></i>
           <span class="label">Fleet Size</span>
           <div class="value">1,420</div>
           <div class="trend" style="color:var(--success)"><i class="ph-bold ph-trend-up"></i> +12% this month</div>
         </div>
-        <div class="card" data-aos="fade-up" data-aos-delay="200">
-          <i class="ph-bold ph-Servicing-pile trend-icon" data-aos="zoom-in" data-aos-delay="300"></i>
+        <div class="card">
+          <i class="ph-bold ph-lightning trend-icon"></i>
           <span class="label">Grid Uptime</span>
           <div class="value">99.8%</div>
           <div class="trend" style="color:var(--success)"><i class="ph-bold ph-check-circle"></i> Optimal Performance</div>
         </div>
-        <div class="card" data-aos="fade-up" data-aos-delay="300">
-          <i class="ph-bold ph-currency-circle-dollar trend-icon" data-aos="zoom-in" data-aos-delay="400"></i>
+        <div class="card">
+          <i class="ph-bold ph-currency-circle-dollar trend-icon"></i>
           <span class="label">Revenue</span>
           <div class="value">$142.5K</div>
           <div class="trend" style="color:var(--success)"><i class="ph-bold ph-trend-up"></i> +8.4% vs LY</div>
         </div>
+        <div class="card">
+          <i class="ph-bold ph-users-three trend-icon"></i>
+          <span class="label">Active Sessions</span>
+          <div class="value">384</div>
+          <div class="trend" style="color:var(--success)"><i class="ph-bold ph-trend-up"></i> 85% Utilization</div>
+        </div>
       </div>
 
-      <div class="grid-responsive-2-1" style="display:grid; grid-template-columns: 2fr 1fr; gap:24px;">
-        <div class="card"><canvas id="mainChart" height="150"></canvas></div>
+      <div class="grid-responsive-2-1" style="display:grid; grid-template-columns: 2fr 1fr; gap:24px; margin-bottom: 20px;">
         <div class="card">
-          <h4 style="margin-bottom:20px">Recent Alerts</h4>
-          <div style="font-size:0.85rem; display:flex; flex-direction:column; gap:15px;">
-            <div style="border-left:4px solid var(--accent); padding-left:10px;">
-                <strong>Station #42 Offline</strong><br><small>Maintenance required in Salem South</small>
+          <h4 style="margin-bottom:15px; font-weight: 800;">Real-Time Energy Demand (kW)</h4>
+          <canvas id="mainChart" height="150"></canvas>
+        </div>
+        <div class="card">
+          <h4 style="margin-bottom:10px; font-weight: 800;">System Alerts</h4>
+          <div class="admin-alert-list">
+            <div class="admin-alert-item alert-critical">
+                <div class="admin-alert-header">
+                    <strong>Station #42 Offline</strong>
+                    <small>12m ago</small>
+                </div>
+                <p>Salem South DC Fast Hub is offline. Hardware error reported in transformer unit. Technician dispatched.</p>
             </div>
-            <div style="border-left:4px solid #000; padding-left:10px;">
-                <strong>New Fleet Arrival</strong><br><small>20x Sedan Pro units docked</small>
+            <div class="admin-alert-item alert-info">
+                <div class="admin-alert-header">
+                    <strong>New Fleet Docked</strong>
+                    <small>1h ago</small>
+                </div>
+                <p>20 new Stackly Sedan Pro vehicles have successfully paired with the Salem depot central management.</p>
+            </div>
+            <div class="admin-alert-item alert-warning">
+                <div class="admin-alert-header">
+                    <strong>High Grid Load</strong>
+                    <small>2h ago</small>
+                </div>
+                <p>Salem Central Mall hub load exceeded 90% capacity. Throttling applied to conserve local grid load.</p>
             </div>
           </div>
         </div>
@@ -543,10 +640,10 @@
                 {
                   label: "Energy Demand (kW)",
                   data: [30, 20, 85, 120, 95, 110],
-                  borderColor: "#2563EB",
+                  borderColor: "#59ab66",
                   tension: 0.4,
                   fill: true,
-                  backgroundColor: "rgba(37, 99, 235, 0.1)",
+                  backgroundColor: "rgba(89, 171, 102, 0.05)",
                 },
               ],
             },
@@ -566,30 +663,49 @@
         if (section === "vehicles") {
           content.innerHTML = `
       <div class="section-header" style="display:flex; justify-content:space-between; align-items:center;" data-aos="fade-up">
-        <div><h2 data-aos="fade-up" data-aos-delay="100">Vehicle Inventory</h2><p data-aos="fade-up" data-aos-delay="200">Manage and track every Auto in the Stackly ecosystem.</p></div>
-        <button onclick="window.location.href='404.html'" style="background:var(--deep-charcoal); color: #F8FAFC; border:none; padding:12px 24px; border-radius:12px; font-weight:800; cursor:pointer;" data-aos="fade-up" data-aos-delay="300"><i class="ph-bold ph-plus"></i> Add Vehicle</button>
+        <div><h2>Vehicle Inventory</h2><p>Manage and track every Auto in the Stackly ecosystem.</p></div>
+        <button onclick="window.location.href='404.html'" style="background:var(--accent); color: #F8FAFC; border:none; padding:12px 24px; border-radius:12px; font-weight:800; cursor:pointer;" data-aos="fade-up" data-aos-delay="300"><i class="ph-bold ph-plus"></i> Add Vehicle</button>
       </div>
-      <div class="cards" style="grid-template-columns: repeat(3, 1fr);">
-        <div class="card" data-aos="fade-up" data-aos-delay="100"><span class="label">Total Vehicles</span><div class="value" style="font-size:2.5rem;">248</div></div>
-        <div class="card" data-aos="fade-up" data-aos-delay="200"><span class="label">Active on Route</span><div class="value" style="font-size:2.5rem; color:var(--success);">185</div></div>
-        <div class="card" data-aos="fade-up" data-aos-delay="300"><span class="label">In Maintenance</span><div class="value" style="font-size:2.5rem; color:var(--warning);">12</div></div>
+      <div class="cards" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+        <div class="card"><span class="label">Total Vehicles</span><div class="value">248</div></div>
+        <div class="card"><span class="label">Active on Route</span><div class="value" style="color:var(--success);">185</div></div>
+        <div class="card"><span class="label">In Maintenance</span><div class="value" style="color:var(--warning);">12</div></div>
+        <div class="card"><span class="label">Average Charge Level</span><div class="value" style="color:var(--accent);">89%</div></div>
       </div>
       <div class="visual-list">
         <div class="item-row">
-          <img src="assets/car-alpha.webp" class="item-img" alt="Car" data-aos="zoom-in" data-aos-delay="200">
+          <img src="assets/car-alpha.webp" class="item-img" alt="Car">
           <div class="item-info">
-            <h4  >Stackly Sedan Pro</h4>
-            <p >ID: VE-9920 | <span style="color:var(--success)">Engine: 98%</span></p>
-            <small >Last Ping: 2 mins ago (Salem Central)</small>
+            <h4>Stackly Sedan Pro</h4>
+            <p>ID: VE-9920 | <span style="color:var(--success)">Engine: 98%</span> | Battery: 84%</p>
+            <small>Last Ping: 2 mins ago (Salem Central Mall)</small>
           </div>
           <i class="ph-bold ph-caret-right" style="margin-left:auto"></i>
         </div>
         <div class="item-row">
-          <img src="assets/car-terra.webp" class="item-img" alt="Van" data-aos="zoom-in" data-aos-delay="300">
+          <img src="assets/car-terra.webp" class="item-img" alt="Van">
           <div class="item-info">
-            <h4 >Neural Drive Van</h4>
-            <p>ID: VE-4412 | <span style="color:var(--warning)">Engine: 42%</span></p>
-            <small >Route: Logi-Link Express</small>
+            <h4>Neural Drive Van</h4>
+            <p>ID: VE-4412 | <span style="color:var(--warning)">Engine: 42%</span> | Battery: 42%</p>
+            <small>Route: Logi-Link Express (Charging at Tech Park)</small>
+          </div>
+          <i class="ph-bold ph-caret-right" style="margin-left:auto"></i>
+        </div>
+        <div class="item-row">
+          <img src="assets/car-roadster.webp" class="item-img" alt="Roadster">
+          <div class="item-info">
+            <h4>Stackly Roadster Pro</h4>
+            <p>ID: VE-7711 | <span style="color:var(--success)">Engine: 99%</span> | Battery: 95%</p>
+            <small>Last Ping: Just now (Salem Airport Terminal)</small>
+          </div>
+          <i class="ph-bold ph-caret-right" style="margin-left:auto"></i>
+        </div>
+        <div class="item-row">
+          <img src="assets/car-manta.webp" class="item-img" alt="Manta">
+          <div class="item-info">
+            <h4>Stackly Utility Truck</h4>
+            <p>ID: VE-3388 | <span style="color:#ff4d4d">Engine: 92% (Fault Code: TH-02)</span> | Battery: 78%</p>
+            <small>Status: Maintenance Pending (Salem East Depot)</small>
           </div>
           <i class="ph-bold ph-caret-right" style="margin-left:auto"></i>
         </div>
@@ -603,25 +719,48 @@
         <div><h2>Power Grid Hub</h2><p>Station health and live Service Sessions.</p></div>
         <button onclick="window.location.href='404.html'" style="background:var(--accent); color: #F8FAFC; border:none; padding:12px 24px; border-radius:12px; font-weight:800; cursor:pointer;"><i class="ph-bold ph-wrench"></i> Deploy Station</button>
       </div>
-      <div class="cards">
-        <div class="card" data-aos="fade-up" data-aos-delay="100"><span class="label">Total Stations</span><div class="value">142</div></div>
-        <div class="card" data-aos="fade-up" data-aos-delay="200"><span class="label">Active Ports</span><div class="value" style="color:var(--success);">384</div></div>
-        <div class="card" data-aos="fade-up" data-aos-delay="300"><span class="label">Offline</span><div class="value" style="color:#ff4d4d;">3</div></div>
-        <div class="card" data-aos="fade-up" data-aos-delay="400"><span class="label">Dispensed (24H)</span><div class="value">4.2MWh</div></div>
+      <div class="cards" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+        <div class="card"><span class="label">Total Stations</span><div class="value">142</div></div>
+        <div class="card"><span class="label">Active Ports</span><div class="value" style="color:var(--success);">384</div></div>
+        <div class="card"><span class="label">Offline</span><div class="value" style="color:#ff4d4d;">3</div></div>
+        <div class="card"><span class="label">Dispensed (24H)</span><div class="value">4.2MWh</div></div>
       </div>
-      <div class="table-container">
-        <table>
-          <thead>
-            <tr><th>Station ID</th><th>Location</th><th>Tier Output</th><th>Current Load</th><th>Status</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>ST-SALEM-01</td><td>Salem Central Mall</td><td>150kW DC Fast</td><td>120kW</td><td><span class="badge" style="color:var(--accent)">8/10 In Use</span></td></tr>
-            <tr><td>ST-SALEM-05</td><td>Tech Park North</td><td>50kW AC Target</td><td>0kW</td><td><span class="badge" style="color: #F8FAFC">12 Available</span></td></tr>
-            <tr><td>ST-SALEM-09</td><td>Highway 44 Hub</td><td>250kW Hyper</td><td>210kW</td><td><span class="badge" style="color:var(--accent)">4/4 In Use</span></td></tr>
-            <tr><td>ST-SALEM-12</td><td>Downtown Plaza</td><td>150kW DC Fast</td><td>78kW</td><td><span class="badge" style="color:var(--accent)">3/6 In Use</span></td></tr>
-            <tr><td>ST-SALEM-18</td><td>Airport Terminal</td><td>250kW Hyper</td><td>0kW</td><td><span class="badge" style="color:#ff4d4d;">Maintenance</span></td></tr>
-          </tbody>
-        </table>
+      <div class="grid-responsive-2-1" style="display:grid; grid-template-columns: 2fr 1fr; gap:24px; margin-bottom: 20px;">
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr><th>Station ID</th><th>Location</th><th>Tier Output</th><th>Current Load</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>ST-SALEM-01</td><td>Salem Central Mall</td><td>150kW DC Fast</td><td>120kW</td><td><span class="badge" style="color:var(--accent)">8/10 In Use</span></td></tr>
+              <tr><td>ST-SALEM-05</td><td>Tech Park North</td><td>50kW AC Target</td><td>0kW</td><td><span class="badge" style="color: #64748B">12 Available</span></td></tr>
+              <tr><td>ST-SALEM-09</td><td>Highway 44 Hub</td><td>250kW Hyper</td><td>210kW</td><td><span class="badge" style="color:var(--accent)">4/4 In Use</span></td></tr>
+              <tr><td>ST-SALEM-12</td><td>Downtown Plaza</td><td>150kW DC Fast</td><td>78kW</td><td><span class="badge" style="color:var(--accent)">3/6 In Use</span></td></tr>
+              <tr><td>ST-SALEM-18</td><td>Airport Terminal</td><td>250kW Hyper</td><td>0kW</td><td><span class="badge" style="color:#ff4d4d;">Maintenance</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card">
+            <h4 style="margin-bottom:15px; font-weight: 800;">Salem Power Grid Sectors</h4>
+            <div class="diag-list">
+                <div class="diag-item">
+                    <span>Salem Central</span>
+                    <b style="color: #10b981;"><span class="status-indicator status-good"></span>Stable</b>
+                </div>
+                <div class="diag-item">
+                    <span>Salem East</span>
+                    <b style="color: #10b981;"><span class="status-indicator status-good"></span>Stable</b>
+                </div>
+                <div class="diag-item">
+                    <span>Salem North</span>
+                    <b style="color: #f59e0b;"><span class="status-indicator status-warning"></span>High Load</b>
+                </div>
+                <div class="diag-item">
+                    <span>Salem South</span>
+                    <b style="color: #ef4444;"><span class="status-indicator status-danger"></span>Fault Warning</b>
+                </div>
+            </div>
+        </div>
       </div>
     `;
         }
@@ -630,7 +769,13 @@
           content.innerHTML = `
       <div class="section-header" style="display:flex; justify-content:space-between; align-items:center;">
         <div><h2>Access Control</h2><p>Monitor staff roles and driver credentials.</p></div>
-        <button onclick="window.location.href='404.html'" style="background:var(--deep-charcoal); color: #F8FAFC; border:none; padding:12px 24px; border-radius:12px; font-weight:800; cursor:pointer;"><i class="ph-bold ph-envelope-simple-open"></i> Invite User</button>
+        <button onclick="window.location.href='404.html'" style="background:var(--accent); color: #F8FAFC; border:none; padding:12px 24px; border-radius:12px; font-weight:800; cursor:pointer;"><i class="ph-bold ph-envelope-simple-open"></i> Invite User</button>
+      </div>
+      <div class="cards" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+        <div class="card"><span class="label">Super Admins</span><div class="value">2</div></div>
+        <div class="card"><span class="label">Grid Technicians</span><div class="value">8</div></div>
+        <div class="card"><span class="label">Active Drivers</span><div class="value" style="color:var(--success);">24</div></div>
+        <div class="card"><span class="label">Pending Invites</span><div class="value" style="color:var(--warning);">5</div></div>
       </div>
       <div class="visual-list" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
         <div class="item-row">
@@ -638,7 +783,7 @@
           <div style="flex:1">
             <h4>Administrator</h4>
             <p style="font-size:0.8rem;">admin@stackly.com</p>
-            <span class="badge badge-blue" style="margin-top:8px; display:inline-block;">Super Admin</span>
+            <span class="badge badge-blue" style="margin-top:8px; display:inline-block; background:rgba(37, 99, 235, 0.1); color:#2563EB; padding: 4px 8px; border-radius: 6px; font-size: 0.65rem; font-weight: 700;">Super Admin</span>
           </div>
           <i class="ph-bold ph-dots-three-vertical" style="font-size:1.5rem; color:var(--text-muted); cursor:pointer;"></i>
         </div>
@@ -646,8 +791,8 @@
           <div style="width:50px; height:50px; border-radius:50%; background:var(--accent); color: #F8FAFC; display:flex; align-items:center; justify-content:center; font-weight:800;">JR</div>
           <div style="flex:1">
             <h4>James Rubert</h4>
-            <p style="font-size:0.8rem; margin-bottom:10px;">james.r@stackly.com</p>
-            <span class="badge"  margin-top:8x; display:inline-block;">Lead Driver</span>
+            <p style="font-size:0.8rem;">james.r@stackly.com</p>
+            <span class="badge" style="margin-top:8px; display:inline-block; background:rgba(89, 171, 102, 0.1); color:var(--accent); padding: 4px 8px; border-radius: 6px; font-size: 0.65rem; font-weight: 700;">Lead Driver</span>
           </div>
           <i class="ph-bold ph-dots-three-vertical" style="font-size:1.5rem; color:var(--text-muted); cursor:pointer;"></i>
         </div>
@@ -656,7 +801,7 @@
           <div style="flex:1">
             <h4>Sarah Connor</h4>
             <p style="font-size:0.8rem;">s.connor@stackly.com</p>
-            <span class="badge" style="background:var(--border); color: var(--text-main); margin-top:8px; display:inline-block;">Fleet Driver</span>
+            <span class="badge" style="margin-top:8px; display:inline-block; background:rgba(100, 116, 139, 0.1); color:#64748B; padding: 4px 8px; border-radius: 6px; font-size: 0.65rem; font-weight: 700;">Fleet Driver</span>
           </div>
           <i class="ph-bold ph-dots-three-vertical" style="font-size:1.5rem; color:var(--text-muted); cursor:pointer;"></i>
         </div>
@@ -665,7 +810,7 @@
           <div style="flex:1">
             <h4>Michael King</h4>
             <p style="font-size:0.8rem;">m.king@stackly.com</p>
-            <span class="badge badge-green" style="margin-top:8px; display:inline-block;">Grid Technician</span>
+            <span class="badge badge-green" style="margin-top:8px; display:inline-block; background:rgba(16, 185, 129, 0.1); color:#10b981; padding: 4px 8px; border-radius: 6px; font-size: 0.65rem; font-weight: 700;">Grid Technician</span>
           </div>
           <i class="ph-bold ph-dots-three-vertical" style="font-size:1.5rem; color:var(--text-muted); cursor:pointer;"></i>
         </div>
@@ -674,7 +819,7 @@
           <div style="flex:1">
             <h4>Liam Taylor</h4>
             <p style="font-size:0.8rem;">liam.t@stackly.com</p>
-            <span class="badge" style="background:var(--border); color: var(--text-main); margin-top:8px; display:inline-block;">Fleet Driver</span>
+            <span class="badge" style="margin-top:8px; display:inline-block; background:rgba(100, 116, 139, 0.1); color:#64748B; padding: 4px 8px; border-radius: 6px; font-size: 0.65rem; font-weight: 700;">Fleet Driver</span>
           </div>
           <i class="ph-bold ph-dots-three-vertical" style="font-size:1.5rem; color:var(--text-muted); cursor:pointer;"></i>
         </div>
@@ -685,19 +830,34 @@
         if (section === "reports") {
           content.innerHTML = `
       <div class="section-header" data-aos="fade-up">
-        <h2 data-aos="fade-up" data-aos-delay="100">Analytics Hub</h2>
-        <p data-aos="fade-up" data-aos-delay="200">Data-driven insights for Stackly Fleet.</p>
+        <h2>Analytics Hub</h2>
+        <p>Data-driven insights for Stackly Fleet.</p>
       </div>
-      <div class="grid-responsive-reports" style="display:grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+      <div class="cards" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));">
         <div class="card">
-            <h4 style="margin-bottom:10px;">Monthly Revenue</h4>
-            <div style="font-size:2rem; font-weight:800; color:var(--accent); background:var(--deep-charcoal); display:inline-block; padding:8px 20px; border-radius:15px;">$412,450</div>
-            <p style="margin-top:15px; font-size:0.9rem; color:var(--success); font-weight:700;"><i class="ph-bold ph-trend-up"></i> Up 14% compared to last month</p>
+            <span class="label">Monthly Revenue</span>
+            <div class="value" style="color:var(--accent);">$412.4K</div>
+            <p style="margin-top:15px; font-size:0.82rem; color:var(--success); font-weight:700;"><i class="ph-bold ph-trend-up"></i> Up 14% vs LM</p>
         </div>
         <div class="card">
-            <h4 style="margin-bottom:10px;">Energy Dispensed</h4>
-            <div style="font-size:2rem; font-weight:800; color:var(--text-main);">1.2 GWh</div>
-            <p style="margin-top:15px; font-size:0.9rem; color:var(--text-muted); font-weight:600;">Total output across all hyper-hubs globally.</p>
+            <span class="label">Energy Dispensed</span>
+            <div class="value">1.2 GWh</div>
+            <p style="margin-top:15px; font-size:0.82rem; color:var(--text-muted); font-weight:600;">Dispensed across all active hubs.</p>
+        </div>
+        <div class="card">
+            <span class="label">Carbon Offset</span>
+            <div class="value" style="color: #10b981;">1,850 Tons</div>
+            <p style="margin-top:15px; font-size:0.82rem; color:var(--success); font-weight:700;"><i class="ph-bold ph-trend-up"></i> +22% this quarter</p>
+        </div>
+        <div class="card">
+            <span class="label">Fleet Util. Rate</span>
+            <div class="value">87.5%</div>
+            <p style="margin-top:15px; font-size:0.82rem; color:var(--text-muted); font-weight:600;">Peak utilization daily at 12:00 PM.</p>
+        </div>
+        <div class="card">
+            <span class="label">Avg. Service Time</span>
+            <div class="value">24 mins</div>
+            <p style="margin-top:15px; font-size:0.82rem; color:var(--success); font-weight:700;"><i class="ph-bold ph-trend-down"></i> Throttled down by 5m</p>
         </div>
       </div>
     `;
