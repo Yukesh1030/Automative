@@ -465,6 +465,133 @@
         box-shadow: 0 10px 30px rgba(37, 99, 235, 0.3);
         z-index: 1000;
       }
+
+      /* Custom Dashboard Additions & Utilities */
+      .progress-bar {
+        background: rgba(0, 0, 0, 0.05);
+        border-radius: 10px;
+        height: 8px;
+        width: 100%;
+        overflow: hidden;
+        margin-top: 6px;
+      }
+      .progress-fill {
+        background: var(--accent);
+        height: 100%;
+        border-radius: 10px;
+        transition: width 1s ease-out;
+      }
+      .status-indicator {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        display: inline-block;
+        margin-right: 8px;
+      }
+      .status-good { background: #10b981; box-shadow: 0 0 8px #10b981; }
+      .status-warning { background: #f59e0b; box-shadow: 0 0 8px #f59e0b; }
+      .status-danger { background: #ef4444; box-shadow: 0 0 8px #ef4444; }
+      
+      /* Staggered load animation delays */
+      .bento-item {
+        opacity: 0;
+        animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+      }
+      .bento-item:nth-child(1) { animation-delay: 0.05s; }
+      .bento-item:nth-child(2) { animation-delay: 0.1s; }
+      .bento-item:nth-child(3) { animation-delay: 0.15s; }
+      .bento-item:nth-child(4) { animation-delay: 0.2s; }
+      .bento-item:nth-child(5) { animation-delay: 0.25s; }
+      .bento-item:nth-child(6) { animation-delay: 0.3s; }
+      .bento-item:nth-child(7) { animation-delay: 0.35s; }
+      .bento-item:nth-child(8) { animation-delay: 0.4s; }
+
+      .bento-item:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.05);
+        border-color: rgba(89, 171, 102, 0.3);
+      }
+      .stat-card:hover {
+        background: rgba(89, 171, 102, 0.05);
+        border-color: rgba(89, 171, 102, 0.2);
+        transform: scale(1.02);
+        transition: var(--transition);
+      }
+      
+      /* Diagnostic items list style */
+      .diag-list {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        margin-top: 15px;
+      }
+      .diag-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 10px;
+        border-bottom: 1px solid var(--border);
+      }
+      .diag-item:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+      }
+      .diag-item span {
+        font-size: 0.85rem;
+        font-weight: 500;
+      }
+      .diag-item b {
+        font-size: 0.88rem;
+        font-weight: 700;
+      }
+
+      /* Notification list style */
+      .noti-card-list {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        margin-top: 10px;
+      }
+      .noti-card-item {
+        padding: 20px;
+        border-radius: 18px;
+        border: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.01);
+        position: relative;
+        overflow: hidden;
+      }
+      .noti-card-item::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+      }
+      .noti-info::before { background: var(--accent); }
+      .noti-warning::before { background: #f59e0b; }
+      .noti-danger::before { background: #ef4444; }
+      
+      .noti-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 6px;
+      }
+      .noti-card-header h4 {
+        font-size: 0.92rem;
+        font-weight: 700;
+      }
+      .noti-card-header span {
+        font-size: 0.65rem;
+        color: var(--text-muted);
+        font-weight: 600;
+      }
+      .noti-card-body p {
+        font-size: 0.82rem;
+        color: var(--text-muted);
+        line-height: 1.5;
+      }
     </style>
   </head>
 
@@ -598,7 +725,7 @@
         const sections = {
           overview: `
                 <div class="bento-grid">
-                    <div class="bento-item">
+                    <div class="bento-item" data-aos="fade-up">
                         <span class="section-label">DIAGNOSTIC TELEMETRY</span>
                         <div class="stat-subgrid">
                             <div class="stat-card">
@@ -609,7 +736,7 @@
                             <div class="stat-card">
                                 <i class="ph-fill ph-thermometer-simple"></i>
                                 <span>ENGINE</span>
-                                <b>42 <small>Â°C</small></b>
+                                <b>42 <small>°C</small></b>
                             </div>
                             <div class="stat-card">
                                 <i class="ph-fill ph-drop"></i>
@@ -619,7 +746,7 @@
                         </div>
                     </div>
 
-                    <div class="bento-item">
+                    <div class="bento-item" data-aos="fade-up">
                         <span class="badge-positive">POSITIVE</span>
                         <span class="section-label">ENVIRONMENTAL IMPACT</span>
                         <div class="impact-row">
@@ -634,22 +761,66 @@
                         </div>
                     </div>
 
-                    <div class="bento-item active-outline">
+                    <div class="bento-item active-outline" data-aos="fade-up">
                         <span class="section-label">PERFORMANCE SPECTRUM</span>
                         <div class="chart-box">
                             <canvas id="performanceChart"></canvas>
                         </div>
                     </div>
 
-                    <div class="bento-item">
-                        <span class="section-label">NEARBY Service Hubs</span>
+                    <div class="bento-item" data-aos="fade-up">
+                        <span class="section-label">NEARBY SERVICE HUBS</span>
                         <div class="hub-list">
                             <div class="hub-item">
                                 <div class="hub-info">
                                     <h4>VoltPulse - Salem Central</h4>
-                                    <p>1.2 km â€¢ 4/6 Stalls Available</p>
+                                    <p>1.2 km • 4/6 Stalls Available</p>
                                 </div>
                                 <div class="hub-power">350kW</div>
+                            </div>
+                            <div class="hub-item" style="margin-top: 8px;">
+                                <div class="hub-info">
+                                    <h4>Stackly Grid - Salem East</h4>
+                                    <p>3.5 km • 6/8 Stalls Available</p>
+                                </div>
+                                <div class="hub-power" style="color: var(--accent-orange);">150kW</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bento-item" data-aos="fade-up">
+                        <span class="section-label">BATTERY HEALTH & RANGE</span>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                            <div>
+                                <h3 style="font-size: 1.8rem; font-weight: 800;">84%</h3>
+                                <p style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">ESTIMATED RANGE: 385 km</p>
+                            </div>
+                            <i class="ph-fill ph-battery-charging" style="font-size: 2.2rem; color: var(--accent);"></i>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 84%;"></div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-top: 15px; font-size: 0.72rem; color: var(--text-muted); font-weight: 600;">
+                            <span>TEMP: 28°C</span>
+                            <span>VOLTAGE: 398V</span>
+                            <span>HEALTH: 97%</span>
+                        </div>
+                    </div>
+
+                    <div class="bento-item" data-aos="fade-up">
+                        <span class="section-label">DRIVING METRICS (WEEKLY)</span>
+                        <div class="diag-list">
+                            <div class="diag-item">
+                                <span>Total Distance</span>
+                                <b>245 km</b>
+                            </div>
+                            <div class="diag-item">
+                                <span>Average Speed</span>
+                                <b>48 km/h</b>
+                            </div>
+                            <div class="diag-item">
+                                <span>Regen Energy Recovery</span>
+                                <b style="color: var(--accent);"><i class="ph-fill ph-lightning"></i> 22%</b>
                             </div>
                         </div>
                     </div>
@@ -657,13 +828,13 @@
             `,
           profile: `
                 <div class="bento-grid">
-                    <div class="bento-item span-2">
+                    <div class="bento-item span-2" data-aos="fade-up">
                         <span class="section-label">COMMANDER PROFILE</span>
                         <div style="display: flex; align-items: center; gap: 30px; margin-top: 20px; flex-wrap: wrap;">
                             <div style="width: 100px; height: 100px; border-radius: 50%; background: linear-gradient(45deg, #111, #222); border: 2px solid var(--border); display: grid; place-items: center; font-size: 2.5rem; font-weight: 800;">JR</div>
                             <div>
                                 <h2 style="font-size: 1.8rem; font-weight: 800; margin-bottom: 5px;">James Rubert</h2>
-                                <p style="color: var(--text-muted); font-weight: 600;">Elite Commander â€¢ Member Since 2024</p>
+                                <p style="color: var(--text-muted); font-weight: 600;">Elite Commander • Member Since 2024</p>
                                 <div style="margin-top: 15px; display: flex; gap: 10px;">
                                     <span style="background: var(--accent); color: #F8FAFC; padding: 5px 15px; border-radius: 8px; font-weight: 800; font-size: 0.7rem;">LVL 42</span>
                                     <span style="background: rgba(255,255,255,0.05); color: #F8FAFC; padding: 5px 15px; border-radius: 8px; font-weight: 800; font-size: 0.7rem;">PRO DRIVER</span>
@@ -671,7 +842,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="bento-item">
+                    <div class="bento-item" data-aos="fade-up">
                         <span class="section-label">ACCOUNT STATS</span>
                         <div style="display: flex; flex-direction: column; gap: 15px;">
                             <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 10px;">
@@ -684,38 +855,139 @@
                             </div>
                         </div>
                     </div>
-                    <div class="bento-item">
+                    <div class="bento-item" data-aos="fade-up">
                         <span class="section-label">BADGES</span>
-                        <div style="display: flex; gap: 10px;">
-                            <i class="ph-fill ph-shield-check" style="font-size: 2rem; color: #4a9eff;"></i>
-                            <i class="ph-fill ph-wrench" style="font-size: 2rem; color: var(--accent);"></i>
-                            <i class="ph-fill ph-leaf" style="font-size: 2rem; color: #10b981;"></i>
+                        <div style="display: flex; gap: 15px;">
+                            <i class="ph-fill ph-shield-check" style="font-size: 2.5rem; color: #4a9eff;" title="Safety Shield"></i>
+                            <i class="ph-fill ph-wrench" style="font-size: 2.5rem; color: var(--accent);" title="Master Mechanic"></i>
+                            <i class="ph-fill ph-leaf" style="font-size: 2.5rem; color: #10b981;" title="Eco Warrior"></i>
+                            <i class="ph-fill ph-trophy" style="font-size: 2.5rem; color: #f59e0b;" title="Championship Driver"></i>
+                        </div>
+                    </div>
+                    <div class="bento-item" data-aos="fade-up">
+                        <span class="section-label">DRIVING STYLE ANALYSIS</span>
+                        <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 10px;">
+                            <div>
+                                <div style="display: flex; justify-content: space-between; font-size: 0.78rem; font-weight: 600; margin-bottom: 4px;">
+                                    <span>Smooth Acceleration</span>
+                                    <span>95%</span>
+                                </div>
+                                <div class="progress-bar"><div class="progress-fill" style="width: 95%;"></div></div>
+                            </div>
+                            <div>
+                                <div style="display: flex; justify-content: space-between; font-size: 0.78rem; font-weight: 600; margin-bottom: 4px;">
+                                    <span>Regenerative Braking</span>
+                                    <span>92%</span>
+                                </div>
+                                <div class="progress-bar"><div class="progress-fill" style="width: 92%;"></div></div>
+                            </div>
+                            <div>
+                                <div style="display: flex; justify-content: space-between; font-size: 0.78rem; font-weight: 600; margin-bottom: 4px;">
+                                    <span>Speed Limit Adherence</span>
+                                    <span>99%</span>
+                                </div>
+                                <div class="progress-bar"><div class="progress-fill" style="width: 99%;"></div></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bento-item" data-aos="fade-up">
+                        <span class="section-label">CONNECTED VEHICLE</span>
+                        <div class="diag-list">
+                            <div class="diag-item">
+                                <span>Vehicle Model</span>
+                                <b>Stackly Roadster Pro</b>
+                            </div>
+                            <div class="diag-item">
+                                <span>Connection Status</span>
+                                <b style="color: var(--accent);"><span class="status-indicator status-good"></span>Connected</b>
+                            </div>
+                            <div class="diag-item">
+                                <span>Firmware Version</span>
+                                <b>VoltOS 4.5.2 (Latest)</b>
+                            </div>
                         </div>
                     </div>
                 </div>
             `,
           trips: `
                 <div class="bento-grid">
-                    <div class="bento-item span-2">
+                    <div class="bento-item span-2" data-aos="fade-up">
                         <span class="section-label">MISSION HISTORY</span>
-                        <div style="display: flex; flex-direction: column; gap: 10px;">
-                            ${[1, 2, 3]
-                              .map(
-                                () => `
-                                <div class="log-row">
-                                    <div><h4 style="font-size: 0.9rem;">Sector 7G â†’ Research Lab</h4><p style="font-size: 0.75rem; color: var(--text-muted);">Today, 10:30 AM â€¢ 42 km â€¢ 12 kWh</p></div>
-                                    <div style="text-align: right;"><b style="color: var(--accent);">SUCCESS</b><p style="font-size: 0.6rem;">+150 XP</p></div>
+                        <div style="display: flex; flex-direction: column; gap: 12px;">
+                            <div class="log-row">
+                                <div>
+                                    <h4 style="font-size: 0.92rem; font-weight: 700;">Sector 7G → Research Lab</h4>
+                                    <p style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">Today, 10:30 AM • 42 km • 12 kWh consumed</p>
                                 </div>
-                            `,
-                              )
-                              .join("")}
+                                <div style="text-align: right;">
+                                    <span style="background: rgba(16, 185, 129, 0.15); color: #10b981; padding: 4px 10px; border-radius: 6px; font-size: 0.65rem; font-weight: 800;">SUCCESS</span>
+                                    <p style="font-size: 0.6rem; margin-top: 4px; font-weight: 600; color: var(--text-muted);">+150 XP</p>
+                                </div>
+                            </div>
+                            <div class="log-row">
+                                <div>
+                                    <h4 style="font-size: 0.92rem; font-weight: 700;">Salem Bypass → Tech City</h4>
+                                    <p style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">Yesterday, 4:15 PM • 68 km • 20 kWh consumed</p>
+                                </div>
+                                <div style="text-align: right;">
+                                    <span style="background: rgba(16, 185, 129, 0.15); color: #10b981; padding: 4px 10px; border-radius: 6px; font-size: 0.65rem; font-weight: 800;">SUCCESS</span>
+                                    <p style="font-size: 0.6rem; margin-top: 4px; font-weight: 600; color: var(--text-muted);">+250 XP</p>
+                                </div>
+                            </div>
+                            <div class="log-row">
+                                <div>
+                                    <h4 style="font-size: 0.92rem; font-weight: 700;">Salem Airport → Downtown Hub</h4>
+                                    <p style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">Oct 5, 2026 • 24 km • 7 kWh consumed</p>
+                                </div>
+                                <div style="text-align: right;">
+                                    <span style="background: rgba(16, 185, 129, 0.15); color: #10b981; padding: 4px 10px; border-radius: 6px; font-size: 0.65rem; font-weight: 800;">SUCCESS</span>
+                                    <p style="font-size: 0.6rem; margin-top: 4px; font-weight: 600; color: var(--text-muted);">+80 XP</p>
+                                </div>
+                            </div>
                         </div>
+                    </div>
+
+                    <div class="bento-item" data-aos="fade-up">
+                        <span class="section-label">TRIP METRICS (THIS WEEK)</span>
+                        <div class="diag-list">
+                            <div class="diag-item">
+                                <span>Total Completed Trips</span>
+                                <b>14 Trips</b>
+                            </div>
+                            <div class="diag-item">
+                                <span>Total Distance Traveled</span>
+                                <b>312 km</b>
+                            </div>
+                            <div class="diag-item">
+                                <span>Total Energy Consumed</span>
+                                <b>68 kWh</b>
+                            </div>
+                            <div class="diag-item">
+                                <span>Average Consumption</span>
+                                <b style="color: var(--accent);">218 Wh/km</b>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bento-item" data-aos="fade-up">
+                        <span class="section-label">ECO CHALLENGE STATUS</span>
+                        <h4 style="font-weight: 800; font-size: 0.95rem; margin-bottom: 5px;">"Green Braker Challenge"</h4>
+                        <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 12px;">Regenerate 10 kWh from braking events this week.</p>
+                        
+                        <div style="display: flex; justify-content: space-between; font-size: 0.75rem; font-weight: 700; margin-bottom: 4px;">
+                            <span>Progress</span>
+                            <span>8.5 / 10 kWh</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 85%;"></div>
+                        </div>
+                        <p style="font-size: 0.68rem; color: var(--text-muted); font-weight: 600; margin-top: 10px;">Reward: Exclusive "Eco Warrior" dashboard theme & +300 XP</p>
                     </div>
                 </div>
             `,
           Servicing: `
             <div class="bento-grid">
-                        <div class="bento-item span-3">
+                        <div class="bento-item span-2" data-aos="fade-up">
                             <h3 style="margin-bottom:20px; font-weight:800;">Recent Service Sessions</h3>
                             <div class="table-container">
                                 <table class="Service-table">
@@ -728,7 +1000,7 @@
                                             <th>Cost</th>
                                         </tr>
                                     </thead>
-    <tbody>
+                                    <tbody>
                                         <tr>
                                             <td data-label="Date">Mar 28, 2026</td>
                                             <td data-label="Station Location"><b>Salem South SuperServicer</b><br><span class="status-badge status-fast">DC Fast</span></td>
@@ -754,28 +1026,95 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="bento-item span-1 Engine-card">
+                        <div class="bento-item Engine-card" data-aos="fade-up">
                             <div>
                                 <i class="ph-bold ph-map-trifold" style="font-size:1.5rem; color:var(--accent)"></i>
                                 <p style="font-size:0.8rem; font-weight:700; margin-top:10px;">NEAREST STATION</p>
                             </div>
                             <div style="margin-top:20px;">
                                 <h4 style="font-weight:800;">Salem North Plaza</h4>
-                                <p style="font-size:0.8rem; opacity:0.7">1.2 km away â€¢ 4 slots free</p>
+                                <p style="font-size:0.8rem; opacity:0.7">1.2 km away • 4 slots free</p>
                             </div>
-                            <button onclick="window.location.href='404.html'" style="background:var(--accent); color: #F8FAFC; border:none; padding:12px; border-radius:10px; margin-top:20px; font-weight:800; width:100%; cursor:pointer;">NAVIGATE</button>
+                            <button onclick="window.location.href='404.html'" style="background:var(--accent); color: #F8FAFC; border:none; padding:12px; border-radius:10px; margin-top:20px; font-weight:800; width:100%; cursor:pointer; transition: var(--transition);">NAVIGATE</button>
+                        </div>
+                        
+                        <div class="bento-item" data-aos="fade-up">
+                            <span class="section-label">VEHICLE HEALTH CHECKLIST</span>
+                            <div class="diag-list">
+                                <div class="diag-item">
+                                    <span>Motor & Drivetrain</span>
+                                    <b style="color: #10b981;"><span class="status-indicator status-good"></span>Optimal</b>
+                                </div>
+                                <div class="diag-item">
+                                    <span>Brake Wear Status</span>
+                                    <b>85% Life Left</b>
+                                </div>
+                                <div class="diag-item">
+                                    <span>Tire Pressure (PSI)</span>
+                                    <b>36 PSI (All Tires)</b>
+                                </div>
+                                <div class="diag-item">
+                                    <span>Electronics & Sensors</span>
+                                    <b style="color: #10b981;"><span class="status-indicator status-good"></span>Operational</b>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bento-item span-2" data-aos="fade-up">
+                            <span class="section-label">UPCOMING MAINTENANCE PLAN</span>
+                            <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px;">
+                                <div>
+                                    <h4 style="font-weight: 800; font-size: 1.1rem; margin-bottom: 4px;">12,500 km Routine Inspection</h4>
+                                    <p style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">Due in 1,200 km or 14 days • Includes coolant check, wheel rotation, and full diagnostic scan.</p>
+                                </div>
+                                <button onclick="window.location.href='404.html'" style="background: var(--accent); color: #F8FAFC; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 800; cursor: pointer; transition: var(--transition);">BOOK APPOINTMENT</button>
+                            </div>
                         </div>
                     </div >
           `,
 
           notifications: `
                 <div class="bento-grid">
-                    <div class="bento-item">
-                        <span class="section-label">SYSTEM ALERTS</span>
-                        <div style="background: rgba(89, 171, 102, 0.05); border: 1px solid rgba(89, 171, 102, 0.1); padding: 20px; border-radius: 20px;">
-                            <h4 style="color: var(--accent); margin-bottom: 5px;">Update Ready</h4>
-                            <p style="font-size: 0.8rem;">VoltOS 4.5.2 is available for your Unit.</p>
-                            <button onclick="window.location.href='404.html'" style="margin-top: 15px; font-size: 0.7rem; font-weight: 800; text-decoration: underline; background: none; border: none; color: var(--text-main); cursor: pointer;">VIEW CHANGELOG</button>
+                    <div class="bento-item span-2" data-aos="fade-up">
+                        <span class="section-label">NOTIFICATIONS & INBOX</span>
+                        <div class="noti-card-list">
+                            <div class="noti-card-item noti-info">
+                                <div class="noti-card-header">
+                                    <h4>Firmware Update Ready</h4>
+                                    <span>10m ago</span>
+                                </div>
+                                <div class="noti-card-body">
+                                    <p>VoltOS 4.5.2 is ready for your vehicle. The update takes approximately 15 minutes and will optimize motor controller thermal management. Click view changelog to begin.</p>
+                                    <button onclick="window.location.href='404.html'" style="margin-top: 12px; font-size: 0.72rem; font-weight: 800; text-decoration: underline; background: none; border: none; color: var(--accent); cursor: pointer; padding:0;">VIEW DETAILS</button>
+                                </div>
+                            </div>
+                            <div class="noti-card-item noti-warning">
+                                <div class="noti-card-header">
+                                    <h4>Low Tire Pressure Warning</h4>
+                                    <span>2h ago</span>
+                                </div>
+                                <div class="noti-card-body">
+                                    <p>The Front Left tire pressure dropped to 30 PSI (Optimal pressure is 36 PSI). Please check and inflate the tire to prevent uneven tread wear.</p>
+                                </div>
+                            </div>
+                            <div class="noti-card-item noti-info">
+                                <div class="noti-card-header">
+                                    <h4>New Badge Unlocked!</h4>
+                                    <span>1d ago</span>
+                                </div>
+                                <div class="noti-card-body">
+                                    <p>Congratulations, Commander! You have unlocked the "Eco Warrior" badge for maintaining an energy footprint below 180 Wh/km on 5 consecutive trips.</p>
+                                </div>
+                            </div>
+                            <div class="noti-card-item noti-danger">
+                                <div class="noti-card-header">
+                                    <h4>Hard Braking Alert</h4>
+                                    <span>2d ago</span>
+                                </div>
+                                <div class="noti-card-body">
+                                    <p>A hard braking event was registered at sector 7G. Maintaining safe distance from leading vehicles improves overall efficiency and safety score.</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
