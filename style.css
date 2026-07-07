@@ -433,6 +433,10 @@ nav a.active::after {
   z-index: 2001;
 }
 
+.mobile-trigger i {
+  color: var(--accent-orange) !important;
+}
+
 #navbar.scrolled .mobile-trigger,
 .navbar.scrolled .mobile-trigger {
   color: var(--text-main);
